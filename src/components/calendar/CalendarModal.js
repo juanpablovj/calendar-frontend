@@ -22,7 +22,9 @@ const customStyles = {
   },
 };
 
-Modal.setAppElement("#root");
+if (process.env.NODE_ENV !== "test") {
+  Modal.setAppElement("#root");
+}
 
 const now = moment().minutes(0).second(0).add(1, "hours");
 const nowPlus1 = now.clone().add(1, "hours");
@@ -111,6 +113,7 @@ export const CalendarModal = () => {
       closeTimeoutMS={200}
       className="modal"
       overlayClassName="modal-fondo"
+      ariaHideApp={process.env.NODE_ENV !== 'test'}
     >
       <h1>{activeEvent ? "Editar Evento" : "Nuevo Evento"}</h1>
       <hr />
@@ -119,7 +122,7 @@ export const CalendarModal = () => {
           <label>Fecha y hora inicio</label>
           <DateTimePicker
             onChange={handleStartDateChange}
-            value={(activeEvent) ? activeEvent.start : dateStart}
+            value={activeEvent ? activeEvent.start : dateStart}
             className="form-control"
           />
         </div>
@@ -128,7 +131,7 @@ export const CalendarModal = () => {
           <label>Fecha y hora fin</label>
           <DateTimePicker
             onChange={handleFinishDateChange}
-            value={(activeEvent) ? activeEvent.end : dateFinish}
+            value={activeEvent ? activeEvent.end : dateFinish}
             className="form-control"
             minDate={dateStart}
           />

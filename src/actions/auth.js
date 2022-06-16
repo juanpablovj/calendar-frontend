@@ -40,13 +40,12 @@ export const startRegister = (name, email, password) => {
 
 export const startChecking = () => {
   return async (dispatch) => {
+    // const currentToken = !!(localStorage.getItem('token') || '');
 
-    const currentToken = !!(localStorage.getItem('token') || '');
-
-    if(!currentToken) {
-      dispatch(checkingFinish());
-      return;
-    }
+    // if(!currentToken) {
+    //   dispatch(checkingFinish());
+    //   return;
+    // }
 
     const resp = await fetchConToken("auth/renew");
     const body = await resp.json();
@@ -56,6 +55,8 @@ export const startChecking = () => {
       localStorage.setItem("token-init-date", new Date().getTime());
 
       dispatch(login({ uid: body.uid, name: body.name }));
+    } else {
+      dispatch(checkingFinish());
     }
   };
 };
